@@ -31,15 +31,22 @@ public class enemycontroller : MonoBehaviour
         {
             rb.velocity = new Vector2(-speed, 0);
         }
-        if(Vector2.Distance(transform.position, currentPoint.position) < 0.5 && currentPoint==pointB.transform) 
-            {
-            flip();
-            currentPoint = pointA.transform;
-            }
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5 && currentPoint == pointA.transform)
+
+        if (currentPoint == pointB.transform)
         {
-            flip();
-            currentPoint = pointB.transform;
+            if (transform.position.x > currentPoint.position.x)
+            {
+                flip();
+                currentPoint = pointA.transform;
+            }
+        }
+        else if (currentPoint == pointA.transform)
+        {
+            if (transform.position.x < currentPoint.position.x)
+            {
+                flip();
+                currentPoint = pointB.transform;
+            }
         }
     }
     private void flip()

@@ -28,7 +28,7 @@ public class PlayerStats : MonoBehaviour
         SetBubbleSize(1);
     }
 
-    private void Die()
+    public void Die()
     {
         onDie?.Invoke();
 
