@@ -9,8 +9,6 @@ public class WinningPointTriggerController : MonoBehaviour
     private string detectTag = "Player";
 
     [SerializeField]
-    private float disableColliderTimeAfterHit = 5;
-    [SerializeField]
     UnityEvent onPlayerHit;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,9 +19,9 @@ public class WinningPointTriggerController : MonoBehaviour
 
             if (playerStats != null)
             {
-                playerStats.Win();
-
                 gameObject.SetActive(false);
+                
+                playerStats.Win();
             }
         }
     }

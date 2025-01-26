@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlayerStats : MonoBehaviour
@@ -17,6 +18,15 @@ public class PlayerStats : MonoBehaviour
     private playermovement playermovement;
     [SerializeField]
     private GameObject spritesRoot;
+
+    [Space]
+
+    [SerializeField]
+    private AudioSource dieAudioSource;
+    [SerializeField]
+    private AudioSource winAudioSource;
+    [SerializeField]
+    private AudioSource bubblePopAudioSource;
 
     [Space]
 
@@ -37,6 +47,17 @@ public class PlayerStats : MonoBehaviour
         Respawn();
     }
 
+    private void Update()
+    {
+        if (win)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
     private void Respawn()
     {
         transform.position = PlayerSpawnPoint.GetSpawnPosition();
@@ -46,6 +67,8 @@ public class PlayerStats : MonoBehaviour
 
     public void Die()
     {
+        //dieAudioSource.PlayOneShot(bubblePopAudioSource.clip);
+
         onDie?.Invoke();
 
         StartCoroutine(WaitAndRespawn());
@@ -53,9 +76,12 @@ public class PlayerStats : MonoBehaviour
 
     public void Win()
     {
+        winAudioSource.PlayOneShot(winAudioSource.clip);
         playermovement.enabled = false;
 
         winText.SetActive(true);
+
+        win = true;
     }
 
     IEnumerator WaitAndRespawn()
@@ -80,7 +106,9 @@ public class PlayerStats : MonoBehaviour
 
     public bool IncreseseBubbleSize()
     {
-        if(bubbleSize >= maxBubbleSize)
+        bubblePopAudioSource.PlayOneShot(bubblePopAudioSource.clip);
+
+        if (bubbleSize >= maxBubbleSize)
         {
             return false;
         }
@@ -92,6 +120,8 @@ public class PlayerStats : MonoBehaviour
 
     public void DecreseseBubbleSize()
     {
+        bubblePopAudioSource.PlayOneShot(bubblePopAudioSource.clip);
+
         SetBubbleSize(bubbleSize - 1);
     }
 
