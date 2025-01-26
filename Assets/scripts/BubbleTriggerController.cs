@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyTriggerController : MonoBehaviour
+public class BubbleTriggerController : MonoBehaviour
 {
     [SerializeField]
     private string detectTag = "Player";
 
-    private float disableColliderTimeAfterHit = 1;
+    [SerializeField]
+    private float disableColliderTimeAfterHit = 5;
     [SerializeField]
     UnityEvent onPlayerHit;
 
@@ -16,25 +17,31 @@ public class EnemyTriggerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(!canDetect)
+        if (!canDetect)
         {
             return;
         }
 
-        if(collision.CompareTag(detectTag))
+        if (collision.CompareTag(detectTag))
         {
             PlayerStats playerStats = collision.GetComponentInParent<PlayerStats>();
 
-            if(playerStats != null)
+            if (playerStats != null)
             {
-                playerStats.DecreseseBubbleSize();
+                if (playerStats.IncreseseBubbleSize())
+                {
+                    gameObject.SetActive(false);
 
-                StartCoroutine(DisableInteraction());
-
-                onPlayerHit?.Invoke();
+                    onPlayerHit?.Invoke();
+                }
+                else
+                {
+                    StartCoroutine(DisableInteraction());
+                }
             }
         }
     }
+
 
     private IEnumerator DisableInteraction()
     {
@@ -44,5 +51,6 @@ public class EnemyTriggerController : MonoBehaviour
 
         canDetect = true;
     }
+
 
 }

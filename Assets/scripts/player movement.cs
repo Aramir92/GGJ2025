@@ -11,6 +11,17 @@ public class playermovement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
     }
+
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        body.velocity = Vector3.zero;
+    }
+
     private void Update()
     {
         Vector2 axis = Vector2.zero;

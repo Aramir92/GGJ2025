@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -12,9 +13,24 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField]
     private PlayerAnimationManager playerAnimationManager;
+    [SerializeField]
+    private playermovement playermovement;
+    [SerializeField]
+    private GameObject spritesRoot;
+
+    [Space]
+
+    [SerializeField]
+    private GameObject diedText;
+    [SerializeField]
+    private GameObject winText;
+    [SerializeField]
+    private TextMeshProUGUI bubbleSizeText;
 
     [SerializeField]
     UnityEvent onDie;
+
+    bool win = false;
 
     private void Start()
     {
@@ -32,12 +48,46 @@ public class PlayerStats : MonoBehaviour
     {
         onDie?.Invoke();
 
-        Respawn();
+        StartCoroutine(WaitAndRespawn());
     }
 
-    public void IncreseseBubbleSize()
+    public void Win()
     {
+        playermovement.enabled = false;
+
+        winText.SetActive(true);
+    }
+
+    IEnumerator WaitAndRespawn()
+    {
+        playermovement.enabled = false;
+
+        diedText.SetActive(true);
+
+        spritesRoot.SetActive(false);
+
+        yield return new WaitForSeconds(1);
+
+        Respawn();
+        
+        diedText.SetActive(false);
+        spritesRoot.SetActive(true);
+
+        yield return new WaitForSeconds(1);
+
+        playermovement.enabled = true;
+    }
+
+    public bool IncreseseBubbleSize()
+    {
+        if(bubbleSize >= maxBubbleSize)
+        {
+            return false;
+        }
+
         SetBubbleSize(bubbleSize + 1);
+
+        return true;
     }
 
     public void DecreseseBubbleSize()
@@ -49,16 +99,16 @@ public class PlayerStats : MonoBehaviour
     {
         bubbleSize = size;
 
+        bubbleSize = Mathf.Clamp(bubbleSize, 0, maxBubbleSize);
+
+        bubbleSizeText.text = $"{bubbleSize.ToString()}/{maxBubbleSize}";
+
         if (bubbleSize <= 0)
         {
             Die();
             return;
         }
-        else if(bubbleSize > maxBubbleSize)
-        {
-            bubbleSize = maxBubbleSize;
-        }
-
+        
         playerAnimationManager.SetSizeIndex(bubbleSize - 1);
     }
 }

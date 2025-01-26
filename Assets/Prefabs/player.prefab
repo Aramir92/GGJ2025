@@ -1686,6 +1686,7 @@ GameObject:
   - component: {fileID: 8026256549412248506}
   - component: {fileID: 6889732304608700130}
   - component: {fileID: 2017548119168132243}
+  - component: {fileID: 6735965000281653577}
   m_Layer: 0
   m_Name: bolla-bolla-di-sapone-colorato-galleggiante-35016
   m_TagString: Player
@@ -1805,6 +1806,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12.69, y: 12.76}
   m_EdgeRadius: 0
+--- !u!114 &6735965000281653577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602390755642179951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed56c9f2b7e8fbc4098bc0f2f95e0e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: -10
+  randomizeInitialValue: 1
 --- !u!1 &6605054641075690791
 GameObject:
   m_ObjectHideFlags: 0
@@ -2110,6 +2125,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBubbleSize: 5
   playerAnimationManager: {fileID: 2059544249984882852}
+  playermovement: {fileID: 7558202793717719291}
+  spritesRoot: {fileID: 22981992689273079}
+  diedText: {fileID: 0}
+  bubbleSizeText: {fileID: 0}
   onDie:
     m_PersistentCalls:
       m_Calls: []
